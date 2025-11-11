@@ -1,5 +1,6 @@
 import { CronService } from './cron/cron-service.js';
 import { CheckService } from '../domain/use-cases/checks/check-service.js';
+import { EmailService } from './email/email.service.js';
 
 import { LogRepositoryImpl } from '../infrastructure/repositories/log.repository.impl.js';
 import { FileSystemDatasource } from '../infrastructure/datasources/file-system.datasource.js';
@@ -18,11 +19,40 @@ export class ServerApp {
   public static start() {
     console.log('Server is running');
 
+    //! example of how to send an email
+    const emailService = new EmailService();
+
+    //! example of how to send an email without file system attachments
+    // emailService
+    //   .sendEmail({
+    //     to: 'aldo.works@gmail.com',
+    //     subject: 'Test email',
+    //     htmlBody: `<h1>Logs of the application</h1>
+    //     <p>lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+    //     `,
+    //   })
+    //   .then((result) => {
+    //     console.log('Email sent:', result);
+    //   })
+    //   .catch((error) => {
+    //     console.log('Error sending email:', error);
+    //   });
+
+    //! example of how to send an email with file system attachments
+    // emailService.sendEmailWithFileSystemAttachments({
+    //   to: 'aldo.works@gmail.com',
+    //   subject: 'Test email with file system attachments',
+    //   htmlBody: `<h1>Logs of the application</h1>
+    //   <p>lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+    //   `,
+    // });
+
+    //*===================== CRON JOB ======================
     CronService.createJob('*/10 * * * * *', () => {
       const date = new Date();
       console.log('You will see this message every 10 seconds', date);
-      const url = 'https://www.google.com/not-found';
-      //const url = 'https://www.google.com';
+      // const url = 'https://www.google.com/not-found';
+      const url = 'https://www.google.com';
       //const url = 'http://localhost:3000/posts';
 
       //! example of how not to use the successCallback and errorCallback

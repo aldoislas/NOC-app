@@ -6,9 +6,9 @@ import { envs } from './config/plugins/envs.plugin.js';
 })();
 
 function main() {
-  // ServerApp.start();
-  console.log('App is running');
+  ServerApp.start();
+  // console.log('App is running');
   console.log('env', envs);
-  console.log('PORT', envs.PORT);
+  // console.log('PORT', envs.PORT);
   
 }

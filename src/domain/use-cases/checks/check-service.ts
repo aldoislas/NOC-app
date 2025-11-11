@@ -26,20 +26,27 @@ export class CheckService implements CheckServiceProps {
       if (!response.ok) {
         throw new Error(`Failed to fetch URL ${response.status} : ${url}`);
       }
-      const log = new LogEntity(
-        `SERVICE: URL ${url} is ok`,
-        LogSeverityLevel.low
-      );
+
+      const options = {
+        message: `SERVICE: URL ${url} is ok`,
+        level: LogSeverityLevel.low,
+        origin: 'CheckService',
+      };
+
+      const log = new LogEntity(options);
       await this.logRepository.saveLog(log);
       //here we validate if the successCallback is defined and then we call it with the && operator
       this.successCallback && this.successCallback();
 
       return true;
     } catch (error) {
-      const log = new LogEntity(
-        `SERVICE: URL ${url} is not ok - TypeError: ${error}`,
-        LogSeverityLevel.high
-      );
+      const options = {
+        message: `SERVICE: URL ${url} is not ok - TypeError: ${error}`,
+        level: LogSeverityLevel.high,
+        origin: 'CheckService',
+      };
+      const log = new LogEntity(options);
+
       await this.logRepository.saveLog(log);
       //here we validate if the errorCallback is defined and then we call it with the ? operator
       this.errorCallback?.(error as Error);

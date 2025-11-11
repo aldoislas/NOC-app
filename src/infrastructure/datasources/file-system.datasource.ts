@@ -40,9 +40,9 @@ export class FileSystemDatasource implements LogDatasource {
   }
 
   saveLog(log: LogEntity): Promise<void> {
-    const logString = `Service:${log.message} - Level: ${
+    const logString = `${log.message} - Level: ${
       log.level
-    } - CreatedAt:${log.createdAt.toISOString()}\n`;
+    } -- Origin:${log.origin} -- CreatedAt:${log.createdAt.toISOString()}\n`;
 
     fs.appendFileSync(this.allLogsPath, logString);
 
